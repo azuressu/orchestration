@@ -1,1 +1,5 @@
 rootProject.name = 'Orchestration'
+
+include 'order-service'
+include 'product-service'
+include 'orchestrator'
