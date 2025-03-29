@@ -1,4 +1,4 @@
-package com.saga.orchestrator.model;
+package com.saga.order.model.dto;
 
 import java.io.Serializable;
 
@@ -17,4 +17,3 @@ public class OrderRequest {
 	private Integer productQuantity;
 
 }
-
