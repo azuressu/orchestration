@@ -24,7 +24,9 @@ public class ProductService {
 		String message;
 		Product product = productRepository.findById(request.getProductId()).orElse(null);
 
-		if (product == null || (product.getProductStock() < request.getQuantity())) {
+		if (product == null) {
+			message = "fail";
+		} else if (product.getProductStock() < request.getProductQuantity()) {
 			message = "fail";
 		} else {
 			message = "success";

@@ -1,4 +1,4 @@
-package com.saga.product.model.dto;
+package com.saga.orchestrator.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

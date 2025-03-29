@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.saga.orchestrator.model.OrderRequest;
 import com.saga.orchestrator.service.OrchestratorService;
 
@@ -18,7 +19,7 @@ public class OrchestratorController {  // Saga를 시작하는 API
 	private final OrchestratorService orchestratorService;
 
 	@PostMapping("/saga")
-	public String startOrchestrator(@RequestBody OrderRequest orderRequest) {
+	public String startOrchestrator(@RequestBody OrderRequest orderRequest) throws JsonProcessingException {
 		orchestratorService.startOrchestrator(orderRequest);
 		return "Saga Started Successfully!";
 	}

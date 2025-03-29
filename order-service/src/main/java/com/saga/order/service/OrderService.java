@@ -36,7 +36,7 @@ public class OrderService {
 		}
 
 		// 처리 완료 후 Orchestrator로 응답 메시지 전송
-		rabbitTemplate.convertAndSend(orderResponseQueue, message + ":" + orderId);
+		rabbitTemplate.convertAndSend(orderResponseQueue, message + ":" + orderId +":" + request.getProductId() + ":" + request.getProductQuantity());
 	}
 
 	public void cancelOrderByProduct(Long orderId) {

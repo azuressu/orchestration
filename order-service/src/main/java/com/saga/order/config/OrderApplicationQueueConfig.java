@@ -2,6 +2,7 @@ package com.saga.order.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -29,6 +30,15 @@ public class OrderApplicationQueueConfig {
 	@Value("${order.routingKey}")
 	private String orderRoutingKey;
 
+	@Value("${order.error.exchange}")
+	private String orderErrorExchange;
+
+	@Value("${order.error.queue}")
+	private String orderErrorQueue;
+
+	@Value("${order.error.routingKey}")
+	private String orderErrorRoutingKey;
+
 	@Bean
 	public TopicExchange orderExchange() {
 		return new TopicExchange(orderExchange);
@@ -54,5 +64,19 @@ public class OrderApplicationQueueConfig {
 		return BindingBuilder.bind(orderResponseQueue()).to(orderExchange()).with(orderRoutingKey + ".response");
 	}
 
+	@Bean
+	public TopicExchange orderErrorExchange() {
+		return new TopicExchange(orderErrorExchange);
+	}
+
+	@Bean
+	public Queue orderErrorQueue() {
+		return new Queue(orderErrorQueue);
+	}
+
+	@Bean
+	public Binding bindOrderErrorQueue() {
+		return BindingBuilder.bind(orderErrorQueue()).to(orderErrorExchange()).with(orderErrorRoutingKey);
+	}
 
 }

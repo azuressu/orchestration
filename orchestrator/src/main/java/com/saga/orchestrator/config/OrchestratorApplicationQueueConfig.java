@@ -43,6 +43,15 @@ public class OrchestratorApplicationQueueConfig {
     @Value("${product.routingKey}")
     private String productRoutingKey;
 
+    @Value("${order.error.exchange}")
+    private String orderErrorExchange;
+
+    @Value("${order.error.queue}")
+    private String orderErrorQueue;
+
+    @Value("${order.error.routingKey}")
+    private String orderErrorRoutingKey;
+
     // Order 관련 빈
     @Bean
     public TopicExchange orderExchange() {
@@ -93,6 +102,22 @@ public class OrchestratorApplicationQueueConfig {
     @Bean
     public Binding bindProductResponseQueue() {
         return BindingBuilder.bind(productResponseQueue()).to(productExchange()).with(productRoutingKey + ".response");
+    }
+
+    // Order Error 관련 빈
+    @Bean
+    public TopicExchange orderErrorExchange() {
+        return new TopicExchange(orderErrorExchange);
+    }
+
+    @Bean
+    public Queue orderErrorQueue() {
+        return new Queue(orderErrorQueue);
+    }
+
+    @Bean
+    public Binding bindOrderErrorQueue() {
+        return BindingBuilder.bind(orderErrorQueue()).to(orderErrorExchange()).with(orderErrorRoutingKey);
     }
 
 }
