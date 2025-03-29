@@ -23,17 +23,20 @@ public class OrderService {
 
 	public void processOrder(OrderRequest request) {
 		Long orderId;
+		String message;
 
 		try {
 			Order order = Order.builder().productId(request.getProductId()).productQuantity(request.getProductQuantity()).build();
 			orderRepository.save(order);
+			message = "success";
 			orderId = order.getOrderId();
 		} catch (Exception e) {
+			message = "fail";
 			orderId = null;
 		}
 
 		// 처리 완료 후 Orchestrator로 응답 메시지 전송
-		rabbitTemplate.convertAndSend(orderResponseQueue, "Order processed: " + orderId);
+		rabbitTemplate.convertAndSend(orderResponseQueue, message + ":" + orderId);
 	}
 
 	public void cancelOrderByProduct(Long orderId) {
